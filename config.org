@@ -1,0 +1,88 @@
+* Packages and Repos
+
+#+begin_src emacs-lisp
+
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/"))
+  (add-to-list 'package-archives
+               '("org" . "http://orgmode.org/elpa/" ))
+  (add-to-list 'package-archives 
+               '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (package-initialize)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
+
+#+end_src
+
+* General Initialization
+
+#+begin_src emacs-lisp
+
+  (setq inhibit-startup-screen t) ;; hide the startup message
+  (setq custom-file "~/.emacs.d/custom.el") ;; set where to save customizations
+  (load custom-file)
+  (flyspell-mode t) ;; enable spell checking via flyspell
+  (add-hook 'after-init-hook 'global-company-mode 'global-undo-tree-mode) ;; enable auto-completion globally via company-mode
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (show-paren-mode t)
+  (electric-pair-mode t)
+  (add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb") ;; for Emacs code browser configuration
+  (require 'ecb) ;; for Emacs code browser configuration
+  (all-the-icons-ivy-setup)
+
+#+end_src
+
+* Appearance
+
+#+begin_src emacs-lisp
+
+  (load-theme 'abyss)
+  (global-hl-line-mode)
+  (global-linum-mode)
+  (tool-bar-mode -1)
+  (set-default-font "monospace 11")
+  (setq default-indicate-empty-lines t)
+
+#+end_src
+
+* Communication
+
+This portion of emacs configuration include all settings that are related to communications.
+
+** IRC client settings
+
+#+begin_src emacs-lisp
+
+  (load "~/.emacs.d/.ercrc.el")
+  (erc-colorize-mode 1)
+
+#+end_src
+
+* Programming
+
+#+begin_src emacs-lisp
+
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+#+end_src
+
+** Python
+#+begin_src emacs-lisp
+
+  (elpy-enable)
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-arg "-i --simple-prompt")
+
+  ;; use flycheck not flymake with elpy
+  (when (require 'flycheck nil t)
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+  ;; enable autopep8 formatting on save
+  (require 'py-autopep8)
+  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+#+end_src
