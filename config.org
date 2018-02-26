@@ -23,7 +23,7 @@
   (setq custom-file "~/.emacs.d/custom.el") ;; set where to save customizations
   (load custom-file)
   (flyspell-mode t) ;; enable spell checking via flyspell
-  (add-hook 'after-init-hook 'global-company-mode 'global-undo-tree-mode) ;; enable auto-completion globally via company-mode
+  (add-hook 'after-init-hook 'global-company-mode) ;; enable auto-completion globally via company-mode
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) ")
@@ -32,6 +32,7 @@
   (add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb") ;; for Emacs code browser configuration
   (require 'ecb) ;; for Emacs code browser configuration
   (all-the-icons-ivy-setup)
+  (sublimity-mode 1)
 
 #+end_src
 
@@ -39,7 +40,7 @@
 
 #+begin_src emacs-lisp
 
-  (load-theme 'abyss)
+  (load-theme 'solarized-dark)
   (global-hl-line-mode)
   (global-linum-mode)
   (tool-bar-mode -1)
