@@ -87,3 +87,6 @@ This portion of emacs configuration include all settings that are related to com
   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 #+end_src
+
+** WebDev
+   This section is used for various web development settings including HTML, CSS and others.

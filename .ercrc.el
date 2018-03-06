@@ -5,3 +5,4 @@
 
 (setq erc-nick "Lordveda")
 (setq erc-user-full-name "Hassan Abdin")
+(load "~/.emacs.d/.erc-auth")
