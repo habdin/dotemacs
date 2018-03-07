@@ -38,9 +38,35 @@
 
 * Appearance
 
+** Theming
+
 #+begin_src emacs-lisp
 
+  (setq solarized-distinct-fringe-background t) ;; make the fringe stand out from the background
+  (setq solarized-use-variable-pitch nil) ;; Don't change the font for some headings and titles
+  (setq solarized-high-contrast-mode-line t) ;; make the modeline high contrast
+  (setq solarized-use-less-bold t) ;; Use less bolding
+  (setq solarized-use-more-italic t) ;; Use more italics
+  (setq solarized-emphasize-indicators t) ;; Use less colors for indicators such as git:gutter, flycheck and similar
+  (setq solarized-scale-org-headlines nil) ;; Don't change size of org-mode headlines (but keep other size-changes)
+
+  ;; Avoid all font-size changes
+
+  (setq solarized-height-minus-1 1.0) 
+  (setq solarized-height-plus-1 1.0)
+  (setq solarized-height-plus-2 1.0)
+  (setq solarized-height-plus-3 1.0)
+  (setq solarized-height-plus-4 1.0)
+  (setq x-underline-at-descent-line t)
+
   (load-theme 'solarized-dark)
+
+#+end_src
+
+** Other settings  
+
+#+begin_src emacs-lisp
+
   (global-hl-line-mode)
   (global-linum-mode)
   (tool-bar-mode -1)
@@ -90,3 +116,10 @@ This portion of emacs configuration include all settings that are related to com
 
 ** WebDev
    This section is used for various web development settings including HTML, CSS and others.
+* Miscellaneous
+
+#+begin_src emacs-lisp
+
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+#+end_src
