@@ -32,7 +32,7 @@
   (add-to-list 'load-path "/usr/share/emacs/site-lisp/ecb") ;; for Emacs code browser configuration
   (require 'ecb) ;; for Emacs code browser configuration
   (all-the-icons-ivy-setup)
-  (sublimity-mode 1)
+  (global-auto-revert-mode 1)
 
 #+end_src
 
@@ -97,11 +97,12 @@ This portion of emacs configuration include all settings that are related to com
 #+end_src
 
 ** Python
+
 #+begin_src emacs-lisp
 
   (elpy-enable)
   (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-arg "-i --simple-prompt")
+	python-shell-interpreter-arg "-i --simple-prompt")
 
   ;; use flycheck not flymake with elpy
   (when (require 'flycheck nil t)
@@ -116,6 +117,58 @@ This portion of emacs configuration include all settings that are related to com
 
 ** WebDev
    This section is used for various web development settings including HTML, CSS and others.
+
+#+begin_src emacs-lisp
+
+  ;; Using web-mode for different WebDev purposes
+
+  (use-package web-mode
+    :ensure t
+    :init
+    (setq web-mode-enable-current-element-highlight t
+	  web-mode-enable-current-column-highlight t)	
+    :mode
+    (("\\.phtml\\'" . web-mode)
+     ("\\.tpl\\.php\\'" . web-mode)
+     ("\\.[agj]sp\\'" . web-mode)
+     ("\\.as[cp]x\\'" . web-mode)
+     ("\\.erb\\'" . web-mode)
+     ("\\.mustache\\'" . web-mode)
+     ("\\.djhtml\\'" . web-mode)
+     ("\\.html?\\'" . web-mode))
+
+    :config
+    (setq  web-mode-markup-indent-offset 2
+	   web-mode-css-indent-offset 2
+	   web-mode-code-indent-offset 2
+	   web-mode-style-padding 1
+	   web-mode-script-padding 1
+	   web-mode-block-padding 0
+	   web-mode-enable-auto-pairing t
+	   web-mode-enable-css-colorization t
+	   web-mode-enable-part-face t
+	   web-mode-comment-keywords t
+	   web-mode-enable-heredoc-fontification t)
+    (set-face-attribute 'web-mode-css-at-rule-face nil :foreground "Pink3")
+    )
+
+  ;; Configure Emmet-mode and attach it to Web-mode.
+
+  (use-package emmet-mode
+    :ensure t
+    :hook (web-mode))
+
+  ;; Configure Skewer-mode
+
+  (use-package skewer-mode
+    :ensure t
+    :hook web-mode
+    :config
+    (add-hook 'web-mode-hook 'skewer-css-mode-hook)
+    (add-hook 'web-mode-hook 'skewer-html-mode-hook))
+
+#+end_src
+
 * Miscellaneous
 
 #+begin_src emacs-lisp
