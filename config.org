@@ -4,14 +4,23 @@
 
   (require 'package)
   (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/"))
+	       '("melpa" . "http://melpa.org/packages/"))
   (add-to-list 'package-archives
-               '("org" . "http://orgmode.org/elpa/" ))
+	       '("org" . "http://orgmode.org/elpa/" ))
   (add-to-list 'package-archives 
-               '("marmalade" . "http://marmalade-repo.org/packages/"))
+	       '("marmalade" . "http://marmalade-repo.org/packages/"))
   (package-initialize)
   (when (not package-archive-contents)
     (package-refresh-contents))
+
+  ;; Start using paradox as Package manager
+  (use-package paradox
+    :ensure t
+    :defer t
+    :config
+    (progn
+      (load (locate-user-emacs-file "paradox-token") :noerror :nomessage))
+    (paradox-enable))
 
 #+end_src
 
