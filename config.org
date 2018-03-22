@@ -144,8 +144,8 @@ This portion of emacs configuration include all settings that are related to com
      ("\\.erb\\'" . web-mode)
      ("\\.mustache\\'" . web-mode)
      ("\\.djhtml\\'" . web-mode)
-     ("\\.html?\\'" . web-mode))
-
+     ("\\.html?\\'" . web-mode)
+     ("\\.css\\'" . web-mode))
     :config
     (setq  web-mode-markup-indent-offset 2
 	   web-mode-css-indent-offset 2
@@ -165,16 +165,20 @@ This portion of emacs configuration include all settings that are related to com
 
   (use-package emmet-mode
     :ensure t
+    :config
+    (setq emmet-self-closing-tag-style "")
     :hook (web-mode))
+
 
   ;; Configure Skewer-mode
 
   (use-package skewer-mode
     :ensure t
-    :hook web-mode
-    :config
-    (add-hook 'web-mode-hook 'skewer-css-mode-hook)
-    (add-hook 'web-mode-hook 'skewer-html-mode-hook))
+    :hook
+    (web-mode .  skewer-css-mode)
+    (web-mode . skewer-html-mode)
+    (web-mode))
+
 
 #+end_src
 
