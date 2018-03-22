@@ -45,6 +45,24 @@
 
 #+end_src
 
+* Personal functions
+
+This is where I add my personal functions for Emacs
+
+#+begin_src emacs-lisp
+  (defun my-check-extension (extension) 
+    "Check the file extension for the current buffer filename"
+    (string= (file-name-extension buffer-file-name) extension))
+
+  (defun my-skewer-enable ()
+    "Enables the needed skewer-mode for the file extension"	
+    (cond ((my-check-extension "html")
+	   (skewer-html-mode 1))
+	  ((my-check-extension "css")
+	   (skewer-css-mode 1))
+	  ))
+#+end_src
+
 * Appearance
 
 ** Theming
@@ -174,11 +192,10 @@ This portion of emacs configuration include all settings that are related to com
 
   (use-package skewer-mode
     :ensure t
-    :hook
-    (web-mode .  skewer-css-mode)
-    (web-mode . skewer-html-mode)
-    (web-mode))
-
+      :init 
+      (add-hook 'web-mode-hook 'my-skewer-enable)
+      :hook
+      (web-mode))
 
 #+end_src
 
