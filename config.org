@@ -120,6 +120,8 @@ This portion of emacs configuration include all settings that are related to com
 #+begin_src emacs-lisp
 
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  (use-package projectile
+    :ensure t)
 
 #+end_src
 
@@ -196,6 +198,22 @@ This portion of emacs configuration include all settings that are related to com
       (add-hook 'web-mode-hook 'my-skewer-enable)
       :hook
       (web-mode))
+
+  (use-package impatient-mode
+    :ensure t
+    :hook
+    (web-mode))
+
+#+end_src
+
+** YAML
+
+#+begin_src emacs-lisp
+
+  (use-package yaml-mode
+    :ensure t
+    :mode
+    ("\\.yml\\'" . yaml-mode))
 
 #+end_src
 
