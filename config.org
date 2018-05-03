@@ -32,7 +32,8 @@
   (setq custom-file "~/.emacs.d/custom.el") ;; set where to save customizations
   (load custom-file)
   (flyspell-mode t) ;; enable spell checking via flyspell
-  (add-hook 'after-init-hook 'global-company-mode) ;; enable auto-completion globally via company-mode
+  (add-hook 'after-init-hook 'global-company-mode) ;; enable auto-completion globally via company-mode)
+  (add-hook 'after-init-hook 'my-set-fira-code-ligatures)
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) ")
@@ -42,6 +43,8 @@
   (require 'ecb) ;; for Emacs code browser configuration
   (all-the-icons-ivy-setup)
   (global-auto-revert-mode 1)
+  (use-package dash
+    :ensure t)
 
 #+end_src
 
@@ -50,6 +53,7 @@
 This is where I add my personal functions for Emacs
 
 #+begin_src emacs-lisp
+
   (defun my-check-extension (extension) 
     "Check the file extension for the current buffer filename"
     (string= (file-name-extension buffer-file-name) extension))
@@ -61,6 +65,42 @@ This is where I add my personal functions for Emacs
 	  ((my-check-extension "css")
 	   (skewer-css-mode 1))
 	  ))
+
+  (defun my-correct-symbol-bounds (pretty-alist)
+    "Prepend a TAB character to each symbol in this alist,
+    this way compose-region called by prettify-symbols-mode
+    will use the correct width of the symbols
+    instead of the width measured by char-width."
+    (mapcar (lambda (el)
+	      (setcdr el (string ?\t (cdr el)))
+	      el)
+	    pretty-alist))
+
+  (defun my-ligature-list (ligatures codepoint-start)
+    "Create an alist of strings to replace with
+    codepoints starting from codepoint-start."
+    (let ((codepoints (-iterate '1+ codepoint-start (length ligatures))))
+      (-zip-pair ligatures codepoints)))
+  (setq my-fira-code-ligatures
+	(let* ((ligs '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
+		       "{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
+		       "--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
+		       "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_("
+		       ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*"
+		       "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||="
+		       "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "=="
+		       "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">="
+		       ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>"
+		       "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<="
+		       "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
+		       "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
+		       "x" ":" "+" "+" "*")))
+	  (my-correct-symbol-bounds (my-ligature-list ligs #Xe100))))
+
+  (defun my-set-fira-code-ligatures ()
+    (setq prettify-symbols-alist 
+	  (append my-fira-code-ligatures prettify-symbols-alist))
+    (prettify-symbols-mode))
 #+end_src
 
 * Appearance
@@ -69,24 +109,38 @@ This is where I add my personal functions for Emacs
 
 #+begin_src emacs-lisp
 
-  (setq solarized-distinct-fringe-background t) ;; make the fringe stand out from the background
-  (setq solarized-use-variable-pitch nil) ;; Don't change the font for some headings and titles
-  (setq solarized-high-contrast-mode-line t) ;; make the modeline high contrast
-  (setq solarized-use-less-bold t) ;; Use less bolding
-  (setq solarized-use-more-italic t) ;; Use more italics
-  (setq solarized-emphasize-indicators t) ;; Use less colors for indicators such as git:gutter, flycheck and similar
-  (setq solarized-scale-org-headlines nil) ;; Don't change size of org-mode headlines (but keep other size-changes)
+  ;; (setq solarized-distinct-fringe-background t) ;; make the fringe stand out from the background
+  ;; (setq solarized-use-variable-pitch nil) ;; Don't change the font for some headings and titles
+  ;; (setq solarized-high-contrast-mode-line t) ;; make the modeline high contrast
+  ;; (setq solarized-use-less-bold t) ;; Use less bolding
+  ;; (setq solarized-use-more-italic t) ;; Use more italics
+  ;; (setq solarized-emphasize-indicators t) ;; Use less colors for indicators such as git:gutter, flycheck and similar
+  ;; (setq solarized-scale-org-headlines nil) ;; Don't change size of org-mode headlines (but keep other size-changes)
 
-  ;; Avoid all font-size changes
+  ;; ;; Avoid all font-size changes
 
-  (setq solarized-height-minus-1 1.0) 
-  (setq solarized-height-plus-1 1.0)
-  (setq solarized-height-plus-2 1.0)
-  (setq solarized-height-plus-3 1.0)
-  (setq solarized-height-plus-4 1.0)
-  (setq x-underline-at-descent-line t)
+  ;; (setq solarized-height-minus-1 1.0) 
+  ;; (setq solarized-height-plus-1 1.0)
+  ;; (setq solarized-height-plus-2 1.0)
+  ;; (setq solarized-height-plus-3 1.0)
+  ;; (setq solarized-height-plus-4 1.0)
+  ;; (setq x-underline-at-descent-line t)
 
-  (load-theme 'solarized-dark)
+  ;; (load-theme 'solarized-dark)
+
+  (load-theme 'wombat)
+
+  (use-package powerline 
+    :ensure t
+    :init
+    (powerline-center-theme))
+
+  (use-package airline-themes
+    :ensure t
+    :init
+    (progn   
+      (load-theme 'airline-wombat))
+    )
 
 #+end_src
 
@@ -97,7 +151,39 @@ This is where I add my personal functions for Emacs
   (global-hl-line-mode)
   (global-linum-mode)
   (tool-bar-mode -1)
-  (set-default-font "monospace 11")
+  (when (window-system)
+    (set-default-font "Fira Code 11"))
+
+  ;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+  ;; 	       (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+  ;; 	       (36 . ".\\(?:>\\)")
+  ;; 	       (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+  ;; 	       (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+  ;; 	       (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+  ;; 	       (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+  ;; 	       (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+  ;; 	       (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+  ;; 	       (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+  ;; 	       (48 . ".\\(?:x[a-zA-Z]\\)")
+  ;; 	       (58 . ".\\(?:::\\|[:=]\\)")
+  ;; 	       (59 . ".\\(?:;;\\|;\\)")
+  ;; 	       (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+  ;; 	       (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+  ;; 	       (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+  ;; 	       (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+  ;; 	       (91 . ".\\(?:]\\)")
+  ;; 	       (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+  ;; 	       (94 . ".\\(?:=\\)")
+  ;; 	       (119 . ".\\(?:ww\\)")
+  ;; 	       (123 . ".\\(?:-\\)")
+  ;; 	       (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+  ;; 	       (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+  ;; 	       )
+  ;; 	     ))
+  ;;   (dolist (char-regexp alist)
+  ;;     (set-char-table-range composition-function-table (car char-regexp)
+  ;;			    `([,(cdr char-regexp) 0 font-shape-gstring]))))
+
   (setq default-indicate-empty-lines t)
 
 #+end_src
@@ -119,7 +205,7 @@ This portion of emacs configuration include all settings that are related to com
 
 #+begin_src emacs-lisp
 
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'prog-mode-hook 'my-set-fira-code-ligatures #'rainbow-delimiters-mode)
   (use-package projectile
     :ensure t)
 
@@ -271,16 +357,17 @@ This is a tool to be used for various purposes.
     :defer t
     :ensure t
     :config
-    (setq (treemacs-header-function #'treemacs-projectile-create-header))
-    :bind
-    (:map global-map
-	  ("M-m fP" . treemacs-projectile)
-	  ("M-m fp" . treemacs-projectile-toggle)))
+    (setq treemacs-header-function #'treemacs-projectile-create-header)
+    )
 
 #+end_src
 
+** Others
+
 #+begin_src emacs-lisp
 
-  (fset 'yes-or-no-p 'y-or-n-p)
-
+    (fset 'yes-or-no-p 'y-or-n-p)
+    (set-language-environment "UTF-8")
+    (set-default-coding-systems 'utf-8)
+    
 #+end_src

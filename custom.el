@@ -11,7 +11,7 @@
  '(cua-read-only-cursor-color "#859900")
  '(custom-safe-themes
    (quote
-    ("19ba41b6dc0b5dd34e1b8628ad7ae47deb19f968fe8c31853d64ea8c4df252b8" "551596f9165514c617c99ad6ce13196d6e7caa7035cea92a0e143dbe7b28be0e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "e3fc83cdb5f9db0d0df205f5da89af76feda8c56d79a653a5d092c82c7447e02" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default)))
+    ("3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "b59d7adea7873d58160d368d42828e7ac670340f11f36f67fa8071dbf957236a" "01e067188b0b53325fc0a1c6e06643d7e52bc16b6653de2926a480861ad5aa78" "19ba41b6dc0b5dd34e1b8628ad7ae47deb19f968fe8c31853d64ea8c4df252b8" "551596f9165514c617c99ad6ce13196d6e7caa7035cea92a0e143dbe7b28be0e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "e3fc83cdb5f9db0d0df205f5da89af76feda8c56d79a653a5d092c82c7447e02" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default)))
  '(display-battery-mode nil)
  '(display-time-mode nil)
  '(electric-indent-mode nil)
@@ -48,7 +48,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (treemacs-projectile treemacs neotree counsel-projectile counsel-pydoc yaml-mode projectile impatient-mode paradox underwater-theme undo-tree slime slime-company slime-repl abyss-theme color-theme color-theme-cobalt yasnippet-snippets web-beautify all-the-icons-gnus company-web rainbow-blocks rainbow-identifiers rainbow-mode rainbow-delimiters web-mode ox-pandoc helm-dash minesweeper lorem-ipsum php-mode erc-colorize dired-imenu all-the-icons-dired all-the-icons-ivy mode-icons magit-gh-pulls magit-gitflow magit-imerge magit magithub intellij-theme multiple-cursors async org-magit ivy-hydra labburn-theme airline-themes use-package smex company-auctex company-anaconda counsel ob-ipython htmlize auto-package-update powerline emmet-mode ## org sublimity solarized-theme py-autopep8 flycheck elpy ein better-defaults)))
+    (dash dash-functional php-eldoc php-extras php-refactor-mode php-runtime php-scratch company-php treemacs-projectile treemacs neotree counsel-projectile counsel-pydoc yaml-mode projectile impatient-mode paradox underwater-theme undo-tree slime slime-company slime-repl abyss-theme color-theme color-theme-cobalt yasnippet-snippets web-beautify all-the-icons-gnus company-web rainbow-blocks rainbow-identifiers rainbow-mode rainbow-delimiters web-mode ox-pandoc helm-dash minesweeper lorem-ipsum php-mode erc-colorize dired-imenu all-the-icons-dired all-the-icons-ivy mode-icons magit-gh-pulls magit-gitflow magit-imerge magit magithub intellij-theme multiple-cursors async org-magit ivy-hydra labburn-theme airline-themes use-package smex company-auctex company-anaconda counsel ob-ipython htmlize auto-package-update powerline emmet-mode ## org sublimity solarized-theme py-autopep8 flycheck elpy ein better-defaults)))
  '(paradox-automatically-star nil)
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
