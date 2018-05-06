@@ -131,14 +131,13 @@ This is where I add my personal functions for Emacs
   (load-theme 'wombat)
 
   (use-package powerline 
-    :ensure t
-    :init
-    (powerline-center-theme))
+    :ensure t)
 
   (use-package airline-themes
     :ensure t
     :init
     (progn   
+      (require 'airline-themes)
       (load-theme 'airline-wombat))
     )
 
@@ -289,6 +288,26 @@ This portion of emacs configuration include all settings that are related to com
     :ensure t
     :hook
     (web-mode))
+
+  (use-package ac-js2
+    :ensure t
+    :config
+    (add-hook 'company-backends 'ac-js2))
+
+  (use-package company-tern
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-tern))
+
+  (use-package js2-mode
+    :ensure t
+    :mode
+    ("\\.js\\'" . js2-mode))
+
+  (use-package company-tern
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-tern))
 
 #+end_src
 
