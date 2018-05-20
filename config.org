@@ -167,8 +167,12 @@
 
   ;; Set the default font for Emacs
 
-  (when (window-system)
-    (set-default-font "Fira Code 10"))
+  (set-default-font "Fira Code 11")
+
+  
+;;(when (window-system)
+  ;;  (set-frame-font "Fira Code-11"))
+
 
   ;; Always indicate empty lines within files and buffers
 
@@ -295,9 +299,9 @@
     :init
     (progn
       (require 'airline-themes)
-      (load-theme 'airline-wombat)))
+      (load-theme 'airline-molokai)))
 
-  (load-theme 'wombat)
+  (load-theme 'molokai)
 
 #+end_src
 
@@ -360,10 +364,10 @@
     ;; These will be configured in here as well.
 
     (use-package company
-      :init
-      (global-company-mode 1)
+      :config
+      (add-hook 'after-init-hook 'global-company-mode)
       :bind
-      ("M-<space>" . 'company-complete))
+      ("M-C-<space>" . 'company-complete))
 
     (use-package company-anaconda)
 
@@ -371,19 +375,13 @@
 
     (use-package company-web
       :config
-      (add-to-list 'company-backends 'company-web)
-      :hook 
-      (web-mode))
+      (add-to-list 'company-backends 'company-web))
 
     ;; (use-package company-php
     ;;   :config
     ;;   (add-to-list 'company-backends 'company-php))
 
-    (use-package company-tern
-      :config
-      (add-to-list 'company-backends 'company-tern)
-      :hook
-      (js2-mode))
+    (use-package company-tern)      
 
     (use-package auto-complete)
 
@@ -396,28 +394,31 @@
 
 #+begin_src emacs-lisp :tangle yes
 
-  ;; (use-package yasnippet
+  (use-package yasnippet)
   ;;   :defer t
   ;;   :hook
   ;;   (prog-mode text-mode org-mode))
 
-  ;; (use-package yasnippet-snippets
+  (use-package yasnippet-snippets)
   ;;   :defer t)
 
 #+end_src
 
-** Spell-cheking
+** Spell-cheking and Syntax-checking
 
    This subsection of Emacs configuration is concered with spell checking.
 
 #+begin_src emacs-lisp :tangle yes
 
-  ;; Install & Enable `flycheck' as the default spellchecking tool for Emacs
+  ;; Install & Enable `flycheck' as the default syntax checking tool for Emacs
 
-  (use-package flycheck
+  (use-package flycheck)
+
+  ;; Configure `flyspell'
+
+  (use-package flyspell
     :init
-    (flycheck-mode 1))
-
+    (flyspell-mode))
 
 #+end_src
 
@@ -665,6 +666,11 @@ support.
     :config
     (add-to-list 'company-backends 'ac-js2-company))
 
+  (use-package tern
+    :config
+    (add-to-list 'company-backends 'company-tern)
+    (add-hook 'js2-mode-hook (lambda () (tern-mode)(company-mode))))
+
 #+end_src
 
 ** PHP Language Support
@@ -704,4 +710,13 @@ configuration will be done later.
   ;; (use-package slime-repl)
   ;; (use-package slime-company)
 
+#+end_src
+
+** Intellisense Support
+
+   This subsection is concerned with intellisense support for Emacs
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package omnisharp
+    :defer t)
 #+end_src
