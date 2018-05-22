@@ -54,72 +54,73 @@
 
   #+begin_src emacs-lisp :tangle yes
 
-	(use-package dash)
-	(use-package dash-functional)
+    (use-package dash)
+    (use-package dash-functional)
 
-	;; The next two functions are used to assign web-mode css/html to their
-	;; corresponding buffers when opening filenames with corresponding extensions
-	(defun my-check-extension (extension)
-	  "Check the file extension for the current buffer filename"
-	  (string= (file-name-extension buffer-file-name) extension))
+    ;; The next two functions are used to assign web-mode css/html to their
+    ;; corresponding buffers when opening filenames with corresponding extensions
+    (defun my-check-extension (extension)
+      "Check the file extension for the current buffer filename"
+      (string= (file-name-extension buffer-file-name) extension))
 
-	(defun my-skewer-enable ()
-	  "Enables the need skewer-mode file the file extensions html & css"
-	  (cond ((my-check-extension "html")
-		 (skewer-html-mode 1))
-		((my-check-extension "css")
-		 (skewer-css-mode 1)))
-	  )
+    (defun my-skewer-enable ()
+      "Enables the need skewer-mode file the file extensions html & css"
+      (cond ((my-check-extension "html")
+	     (skewer-html-mode 1))
+	    ((my-check-extension "css")
+	     (skewer-css-mode 1)))
+      )
 
-	;; The next two functions configure fira-code font workaround for proper
-	;; Emacs integration.
+    ;; The next two functions configure fira-code font workaround for proper
+    ;; Emacs integration.
 
-	(defun my-correct-symbol-bounds (pretty-alist)
-	    "Prepend a TAB character to each symbol in this alist,
+    (defun my-correct-symbol-bounds (pretty-alist)
+      "Prepend a TAB character to each symbol in this alist,
 	    this way compose-region called by prettify-symbols-mode
 	    will use the correct width of the symbols
 	    instead of the width measured by char-width."
-	    (mapcar (lambda (el)
-		      (setcdr el (string ?\t (cdr el)))
-		      el)
-		    pretty-alist))
+      (mapcar (lambda (el)
+		(setcdr el (string ?\t (cdr el)))
+		el)
+	      pretty-alist))
 
-	  (defun my-ligature-list (ligatures codepoint-start)
-	    "Create an alist of strings to replace with
+    (defun my-ligature-list (ligatures codepoint-start)
+      "Create an alist of strings to replace with
 	    codepoints starting from codepoint-start."
-	    (let ((codepoints (-iterate '1+ codepoint-start (length ligatures))))
-	      (-zip-pair ligatures codepoints)))
-	  (setq my-fira-code-ligatures
-		(let* ((ligs '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
-			       "{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
-			       "--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
-			       "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_("
-			       ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*"
-			       "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||="
-			       "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "=="
-			       "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">="
-			       ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>"
-			       "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<="
-			       "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
-			       "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
-			       "x" ":" "+" "+" "*")))
-		  (my-correct-symbol-bounds (my-ligature-list ligs #Xe100))))
+      (let ((codepoints (-iterate '1+ codepoint-start (length ligatures))))
+	(-zip-pair ligatures codepoints)))
 
-	  (defun my-set-fira-code-ligatures ()
-	    (setq prettify-symbols-alist 
-		  (append my-fira-code-ligatures prettify-symbols-alist))
-	    (prettify-symbols-mode))
+    (setq my-fira-code-ligatures
+	  (let* ((ligs '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\"
+			 "{-" "[]" "::" ":::" ":=" "!!" "!=" "!==" "-}"
+			 "--" "---" "-->" "->" "->>" "-<" "-<<" "-~"
+			 "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_("
+			 ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*"
+			 "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||="
+			 "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "=="
+			 "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">="
+			 ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>"
+			 "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<="
+			 "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~"
+			 "<~~" "</" "</>" "~@" "~-" "~=" "~>" "~~" "~~>" "%%"
+			 "x" ":" "+" "+" "*")))
+	    (my-correct-symbol-bounds (my-ligature-list ligs #Xe100))))
 
-	;; Assigning ignore-errors macro to functions
+    (defun my-set-fira-code-ligatures ()
+      (setq prettify-symbols-alist 
+	    (append my-fira-code-ligatures prettify-symbols-alist))
+      (prettify-symbols-mode))
 
-    ;    (defun ignore-error-wrapper (fn)
-     ;     "Function return new function that ignores errors.
-     ;   The function wraps a function with `ignore-errors' macro"
-	  ;; (lexical-let ((fn fn))
-	  ;; 	(lambda ()
-	  ;; 	  (interactive)
-	  ;; 	  (ignore-errors
-	  ;; 	    (funcall fn)))))
+    ;; Assigning ignore-errors macro to functions
+
+					    ;    (defun ignore-error-wrapper (fn)
+					    ;     "Function return new function that ignores errors.
+					    ;   The function wraps a function with `ignore-errors' macro"
+    ;; (lexical-let ((fn fn))
+    ;; 	(lambda ()
+    ;; 	  (interactive)
+    ;; 	  (ignore-errors
+    ;; 	    (funcall fn)))))
   #+end_src
 
 -----
@@ -167,12 +168,9 @@
 
   ;; Set the default font for Emacs
 
-  (set-default-font "Fira Code 11")
-
-  
-;;(when (window-system)
-  ;;  (set-frame-font "Fira Code-11"))
-
+  (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
+  (add-to-list 'default-frame-alist
+	       '(font . "Fira Code-11"))
 
   ;; Always indicate empty lines within files and buffers
 
@@ -245,7 +243,9 @@
   (use-package rainbow-mode)
 
   ;; rainbow-delimiters - show matching brackets etc
-  (use-package rainbow-delimiters)
+  (use-package rainbow-delimiters
+    :config 
+    (setq global-rainbow-delimiters-mode 1))
 
   ;; show page breaks
   (use-package page-break-lines
@@ -299,9 +299,9 @@
     :init
     (progn
       (require 'airline-themes)
-      (load-theme 'airline-molokai)))
+      (load-theme 'airline-wombat)))
 
-  (load-theme 'molokai)
+  (load-theme 'wombat)
 
 #+end_src
 
@@ -412,13 +412,15 @@
 
   ;; Install & Enable `flycheck' as the default syntax checking tool for Emacs
 
-  (use-package flycheck)
+  (use-package flycheck
+    :config
+    (add-hook 'prog-mode-hook 'flycheck-mode))
 
   ;; Configure `flyspell'
 
   (use-package flyspell
-    :init
-    (flyspell-mode))
+    :config
+    (flyspell-mode t))
 
 #+end_src
 
@@ -568,7 +570,7 @@ splitted buffers
     :config
     (when (require 'flycheck nil t)
       (setq elpy-modules (delq 'elpy-module-flake elpy-modules))
-      (add-hook 'elpy-mode-hook 'flycheck-mo))
+      (add-hook 'elpy-mode-hook 'flycheck-mode))
     )
    (elpy-enable)
 
