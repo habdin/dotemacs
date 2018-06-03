@@ -724,6 +724,48 @@ configuration will be done later.
     :config
     (add-to-list 'company-backends 'company-omnisharp)
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  )
+    (define-key company-active-map (kbd ".") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '".")))
+    (define-key company-active-map (kbd "]") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"]")))
+    (define-key company-active-map (kbd "[") (lambda() (interactive) (company-complete-selection-insert-key '"[")))
+    (define-key company-active-map (kbd ")") (lambda() (interactive) (company-complete-selection-insert-key '")")))
+    (define-key company-active-map (kbd "<SPC>") nil)
+    (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
+    (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
+    (define-key omnisharp-mode-map (kbd "}") 'csharp-indent-function-on-closing-brace) 
+    (define-key omnisharp-mode-map (kbd "<RET>") 'csharp-newline-and-indent) 
+
+    (define-key omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
+    (define-key omnisharp-mode-map (kbd "s-d") 'omnisharp-go-to-definition)
+    (define-key omnisharp-mode-map (kbd "S-s-<up>") 'omnisharp-navigate-up)
+    (define-key omnisharp-mode-map (kbd "S-s-<down>") 'omnisharp-navigate-down)
+    (define-key omnisharp-mode-map (kbd "S-<f12>") 'omnisharp-helm-find-usages)
+
+    (define-key omnisharp-mode-map (kbd "s-u") 'omnisharp-helm-find-usages)
+    (define-key omnisharp-mode-map (kbd "s-i") 'omnisharp-helm-find-implementations)
+    (define-key omnisharp-mode-map (kbd "S-s-<f12>") 'omnisharp-helm-find-usages)
+    (define-key omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
+    (define-key omnisharp-mode-map (kbd "C-.") 'omnisharp-run-code-action-refactoring)
+
+    (define-key omnisharp-mode-map (kbd "C-k C-d") 'omnisharp-code-format)
+    (define-key omnisharp-mode-map (kbd "C-d") 'duplicate-current-line-or-region)
+
+    (define-key omnisharp-mode-map (kbd "<f2>") 'omnisharp-rename-interactively)
+    (define-key omnisharp-mode-map (kbd "<f5>") 'omnisharp-build-in-emacs)
+
+    ;; disable emacs ctrl-r key.... we need it for VS shortcuts
+    (global-unset-key "\C-r")
+    (define-key omnisharp-mode-map (kbd "C-r C-t") (lambda() (interactive) (omnisharp-unit-test "single")))
+    (define-key omnisharp-mode-map (kbd "C-r C-a") (lambda() (interactive) (omnisharp-unit-test "all")))
+    (define-key omnisharp-mode-map (kbd "C-r C-l") 'recompile)
+    (define-key omnisharp-mode-map (kbd "C-r C-r") 'omnisharp-rename)
+
+    (define-key omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
+    (define-key omnisharp-mode-map (kbd "<C-.>") 'omnisharp-run-code-action-refactoring)
+
+    ;; disable emacs ctrl-k key.... we need it for VS shortcuts
+    (global-unset-key "\C-k")
+    (global-set-key (kbd "C-k C-c") 'comment-or-uncomment-region-or-line)
+    (global-set-key (kbd "C-k C-u") 'comment-or-uncomment-region-or-line)
+    )
 
 #+end_src
