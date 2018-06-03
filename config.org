@@ -720,5 +720,7 @@ configuration will be done later.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package omnisharp
-    :defer t)
+    :config
+    (add-to-list 'company-backends 'company-omnisharp)
+    :hook (csharp-mode))
 #+end_src
