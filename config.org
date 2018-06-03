@@ -723,7 +723,11 @@ configuration will be done later.
   (use-package omnisharp
     :config
     (add-to-list 'company-backends 'company-omnisharp)
+<<<<<<< HEAD
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
   )
 
+=======
+    :hook (csharp-mode))
+>>>>>>> 65ff7e6591e8bb9aa6174138df33645bc3221ad0
 #+end_src
