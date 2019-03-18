@@ -39,7 +39,7 @@
   (use-package paradox
     :defer t
     :config
-    (progn 
+    (progn
       (load (locate-user-emacs-file "paradox-token") :noerror :nomessage))
     (paradox-enable))
 
@@ -48,7 +48,7 @@
 -----
 
 * Personal Functions
-  
+
   This section includes personal functions for different aspects of Emacs
   functionality.
 
@@ -107,7 +107,7 @@
 	    (my-correct-symbol-bounds (my-ligature-list ligs #Xe100))))
 
     (defun my-set-fira-code-ligatures ()
-      (setq prettify-symbols-alist 
+      (setq prettify-symbols-alist
 	    (append my-fira-code-ligatures prettify-symbols-alist))
       (prettify-symbols-mode))
 
@@ -137,7 +137,7 @@
 
   (setq inhibit-startup-screen t)
 
-  ;; Define and Load a custom file where different customizations written by 
+  ;; Define and Load a custom file where different customizations written by
   ;; Emacs custmization tool.
 
   (setq custom-file "~/.emacs.d/custom.el")
@@ -244,7 +244,7 @@
 
   ;; rainbow-delimiters - show matching brackets etc
   (use-package rainbow-delimiters
-    :config 
+    :config
     (setq global-rainbow-delimiters-mode 1))
 
   ;; show page breaks
@@ -268,7 +268,7 @@
 
   ;; Download the themes of your choice
   (use-package solarized-theme
-    :config 
+    :config
     (setq solarized-distinct-fringe-background t)
     (setq solarized-use-variable-pitch nil)
     (setq solarized-high-contrast-mode-line t)
@@ -301,21 +301,23 @@
       (require 'airline-themes)
       (load-theme 'airline-wombat)))
 
-  (load-theme 'wombat)
+  (use-package material-theme)
+
+  (load-theme 'material)
 
 #+end_src
 
 -----
 
 * Extending Emacs Functionality
-  
+
   This section of Emacs configuration is concerned with adding various tools which aim at increasing
   Emacs default functionality to new horizons.
 
 ** General extensions
 
    This subsection takes care of the general extensions features
-   
+
    #+begin_src emacs-lisp :tangle yes
 
      ;; Always reveal the pairing symbol (brackets mainly +/- others)
@@ -337,7 +339,7 @@
    #+end_src
 
 ** Auto-completion
-   
+
    This subsection is concerned with autocompletion tools configuration.
 
   #+begin_src emacs-lisp :tangle yes
@@ -348,7 +350,7 @@
       :config
       (setq ivy-use-virtual-buffers t)
       (setq ivy-count-format "(%d/%d) ")
-      :init   
+      :init
       (ivy-mode 1))
 
     (use-package ivy-hydra)
@@ -366,6 +368,7 @@
     (use-package company
       :config
       (add-hook 'after-init-hook 'global-company-mode)
+      (add-hook 'csharp-mode-hook #'company-mode)
       :bind
       ("M-C-<space>" . 'company-complete))
 
@@ -381,7 +384,7 @@
     ;;   :config
     ;;   (add-to-list 'company-backends 'company-php))
 
-    (use-package company-tern)      
+    (use-package company-tern)
 
     (use-package auto-complete)
 
@@ -389,7 +392,7 @@
   #+end_src
 
 ** Snippets system
-   
+
    This subsection is concered with configuring the snippets system to used in Emacs
 
 #+begin_src emacs-lisp :tangle yes
@@ -468,7 +471,7 @@
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
     :bind
     ([f3] . neotree-toggle))
-    
+
 #+end_src
 
 ** Communication
@@ -552,7 +555,7 @@ splitted buffers
 
 #+begin_src emacs-lisp :tangle yes
 
-(use-package projectile)
+  (use-package projectile)
 
 #+end_src
 
@@ -598,7 +601,7 @@ splitted buffers
     :ensure t
     :init
     (setq web-mode-enable-current-element-highlight t
-	  web-mode-enable-current-column-highlight t)	
+	  web-mode-enable-current-column-highlight t)
     :mode
     (("\\.phtml\\'" . web-mode)
      ("\\.tpl\\.php\\'" . web-mode)
@@ -637,7 +640,7 @@ splitted buffers
 
   (use-package skewer-mode
     :ensure t
-    :init 
+    :init
     (add-hook 'web-mode-hook 'my-skewer-enable)
     :hook
     (web-mode))
@@ -722,50 +725,7 @@ configuration will be done later.
 
   (use-package omnisharp
     :config
-    (add-to-list 'company-backends 'company-omnisharp)
-    (add-hook 'csharp-mode-hook 'omnisharp-mode)
-    (define-key company-active-map (kbd ".") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '".")))
-    (define-key company-active-map (kbd "]") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"]")))
-    (define-key company-active-map (kbd "[") (lambda() (interactive) (company-complete-selection-insert-key '"[")))
-    (define-key company-active-map (kbd ")") (lambda() (interactive) (company-complete-selection-insert-key '")")))
-    (define-key company-active-map (kbd "<SPC>") nil)
-    (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
-    (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
-    (define-key omnisharp-mode-map (kbd "}") 'csharp-indent-function-on-closing-brace) 
-    (define-key omnisharp-mode-map (kbd "<RET>") 'csharp-newline-and-indent) 
-
-    (define-key omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
-    (define-key omnisharp-mode-map (kbd "s-d") 'omnisharp-go-to-definition)
-    (define-key omnisharp-mode-map (kbd "S-s-<up>") 'omnisharp-navigate-up)
-    (define-key omnisharp-mode-map (kbd "S-s-<down>") 'omnisharp-navigate-down)
-    (define-key omnisharp-mode-map (kbd "S-<f12>") 'omnisharp-helm-find-usages)
-
-    (define-key omnisharp-mode-map (kbd "s-u") 'omnisharp-helm-find-usages)
-    (define-key omnisharp-mode-map (kbd "s-i") 'omnisharp-helm-find-implementations)
-    (define-key omnisharp-mode-map (kbd "S-s-<f12>") 'omnisharp-helm-find-usages)
-    (define-key omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
-    (define-key omnisharp-mode-map (kbd "C-.") 'omnisharp-run-code-action-refactoring)
-
-    (define-key omnisharp-mode-map (kbd "C-k C-d") 'omnisharp-code-format)
-    (define-key omnisharp-mode-map (kbd "C-d") 'duplicate-current-line-or-region)
-
-    (define-key omnisharp-mode-map (kbd "<f2>") 'omnisharp-rename-interactively)
-    (define-key omnisharp-mode-map (kbd "<f5>") 'omnisharp-build-in-emacs)
-
-    ;; disable emacs ctrl-r key.... we need it for VS shortcuts
-    (global-unset-key "\C-r")
-    (define-key omnisharp-mode-map (kbd "C-r C-t") (lambda() (interactive) (omnisharp-unit-test "single")))
-    (define-key omnisharp-mode-map (kbd "C-r C-a") (lambda() (interactive) (omnisharp-unit-test "all")))
-    (define-key omnisharp-mode-map (kbd "C-r C-l") 'recompile)
-    (define-key omnisharp-mode-map (kbd "C-r C-r") 'omnisharp-rename)
-
-    (define-key omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
-    (define-key omnisharp-mode-map (kbd "<C-.>") 'omnisharp-run-code-action-refactoring)
-
-    ;; disable emacs ctrl-k key.... we need it for VS shortcuts
-    (global-unset-key "\C-k")
-    (global-set-key (kbd "C-k C-c") 'comment-or-uncomment-region-or-line)
-    (global-set-key (kbd "C-k C-u") 'comment-or-uncomment-region-or-line)
-    )
+    (add-to-list 'company-backends #'company-omnisharp)
+    (add-hook 'csharp-mode-hook 'omnisharp-mode))
 
 #+end_src
