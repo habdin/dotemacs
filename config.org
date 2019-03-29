@@ -295,11 +295,12 @@
 
   (use-package powerline)
 
-  (use-package airline-themes
-    :init
-    (progn
-      (require 'airline-themes)
-      (load-theme 'airline-wombat)))
+  (use-package airline-themes)		
+  ;;(use-package airline-themes
+  ;;  :init
+  ;;  (progn
+  ;;    (require 'airline-themes)
+  ;;    (load-theme 'airline-light)))
 
   (use-package material-theme)
 
