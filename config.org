@@ -295,7 +295,12 @@
 
   (use-package powerline)
 
-  (use-package airline-themes)		
+  (use-package airline-themes
+    :init
+    (progn
+      (require 'airline-themes)
+      (airline-themes-set-modeline)))
+
   ;;(use-package airline-themes
   ;;  :init
   ;;  (progn
