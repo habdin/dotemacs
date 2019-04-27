@@ -557,6 +557,12 @@ splitted buffers
   This section is concerned with configuration of different programming languages as well
   as well other programming issues.
 
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (add-hook 'prog-mode-hook 'my-set-fira-code-ligatures)
+
+#+END_SRC
+
 ** Project management
 
 #+begin_src emacs-lisp :tangle yes
