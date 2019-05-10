@@ -147,6 +147,7 @@
 
   (tool-bar-mode -1)
   (menu-bar-mode -1)
+  (scroll-bar-mode -1)
 
   ;; Define default Emacs environment settings
 
@@ -215,6 +216,9 @@
 		     (abbreviate-file-name (buffer-file-name))
 		   "%b"))))
 
+  ;; Smarter Modeline using smart-mode-line
+
+  (use-package smart-mode-line)
 #+end_src
 
 ** Visual settings within buffers
@@ -287,9 +291,6 @@
   (use-package labburn-theme)
   (use-package abyss-theme)
   (use-package underwater-theme)
-  (use-package color-theme)
-  (use-package color-theme-cobalt)
-
 
   ;; Set the theme you want
 
@@ -310,7 +311,6 @@
   (use-package material-theme)
 
   (load-theme 'material)
-
 #+end_src
 
 -----
@@ -589,7 +589,7 @@ splitted buffers
     )
    (elpy-enable)
 
-  (use-package py-autopep8
+   (use-package py-autopep8
     :config
     (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
