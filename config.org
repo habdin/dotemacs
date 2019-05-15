@@ -738,12 +738,7 @@ configuration will be done later.
 
   (use-package omnisharp
     :config
-<<<<<<< ours
-    (add-to-list 'company-backends #'company-omnisharp)
-    (add-hook 'csharp-mode-hook 'omnisharp-mode))
+    (add-hook 'csharp-mode-hook 'omnisharp-mode)
+    )
 
-=======
-    (add-to-list 'company-backends 'company-omnisharp)
-    :hook (csharp-mode))
->>>>>>> theirs
 #+end_src
