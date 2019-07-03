@@ -45,8 +45,6 @@
 
 #+end_src
 
------
-
 * Personal Functions
 
   This section includes personal functions for different aspects of Emacs
@@ -59,6 +57,7 @@
 
     ;; The next two functions are used to assign web-mode css/html to their
     ;; corresponding buffers when opening filenames with corresponding extensions
+
     (defun my-check-extension (extension)
       "Check the file extension for the current buffer filename"
       (string= (file-name-extension buffer-file-name) extension))
@@ -123,8 +122,6 @@
     ;; 	    (funcall fn)))))
   #+end_src
 
------
-
 * Emacs Initialization and Appearance
 
   This section of the document includes code for general Emacs initialization
@@ -186,41 +183,6 @@
   (global-auto-revert-mode 1)
 
 #+end_src
-
-** Modeline settings
-
-   This subsection includes tweaks for modeline-related settings.
-
-#+begin_src emacs-lisp :tangle yes
-
-  ;; Use `diminish' to diminish minor modes from mode line to save space
-
-  (use-package diminish
-    :diminish abbrev-mode
-    :diminish auto-fill-function)
-
-  ;; Use `uniquify' to give meaningful names for buffers with the same name
-
-  (require 'uniquify)
-  (setq uniquify-buffer-name-style 'forward)
-  (setq uniquify-separator "/")
-  (setq uniquify-after-kill-buffer-p t)
-  (setq uniquify-ignore-buffers-re "^\\*") ;; don't muck with special buffers
-
-  ;; more useful frame title, that show either a file or a
-  ;; buffer name (if the buffer isn't visiting a file)
-
-  (setq frame-title-format
-	'("" invocation-name " - "
-	  (:eval (if (buffer-file-name)
-		     (abbreviate-file-name (buffer-file-name))
-		   "%b"))))
-
-  ;; Smarter Modeline using smart-mode-line
-
-  (use-package smart-mode-line)
-#+end_src
-
 ** Visual settings within buffers
 
    This subsection controls settings within the buffer window itself.
@@ -309,12 +271,54 @@
   ;;    (require 'airline-themes)
   ;;    (load-theme 'airline-light)))
 
-  (use-package material-theme)
+  (use-package immaterial-theme)
+  ;;    :ensure t
+  ;;    :config
+  ;;  (load-theme 'immaterial t))
 
-  (load-theme 'material)
+  (load-theme 'wombat)
+
 #+end_src
+** Modeline settings
 
------
+   This subsection includes tweaks for modeline-related settings.
+
+#+begin_src emacs-lisp :tangle yes
+
+  ;; Use `diminish' to diminish minor modes from mode line to save space
+
+  (use-package diminish
+    :diminish abbrev-mode
+    :diminish auto-fill-function)
+
+  ;; Use `uniquify' to give meaningful names for buffers with the same name
+
+  (require 'uniquify)
+  (setq uniquify-buffer-name-style 'forward)
+  (setq uniquify-separator "/")
+  (setq uniquify-after-kill-buffer-p t)
+  (setq uniquify-ignore-buffers-re "^\\*") ;; don't muck with special buffers
+
+  ;; more useful frame title, that show either a file or a
+  ;; buffer name (if the buffer isn't visiting a file)
+
+  (setq frame-title-format
+	'("" invocation-name " - "
+	  (:eval (if (buffer-file-name)
+		     (abbreviate-file-name (buffer-file-name))
+		   "%b"))))
+
+  ;; Smarter Modeline using smart-mode-line
+
+  (use-package smart-mode-line
+    :ensure t
+    :config
+    (setq sml/no-confirm-load-theme t)
+    (setq sml/theme 'respectful)
+    (sml/setup)
+    )
+
+#+end_src
 
 * Extending Emacs Functionality
 
@@ -373,6 +377,7 @@
     ;; These will be configured in here as well.
 
     (use-package company
+      :ensure t
       :config
       (add-hook 'after-init-hook 'global-company-mode)
       (add-hook 'csharp-mode-hook #'company-mode)
@@ -384,8 +389,12 @@
     (use-package company-auctex)
 
     (use-package company-web
+      :ensure t
       :config
-      (add-to-list 'company-backends 'company-web))
+      (add-to-list 'company-backends 'company-web)
+      :hook
+      (web-mode))
+
 
     ;; (use-package company-php
     ;;   :config
@@ -585,7 +594,7 @@ splitted buffers
   (use-package elpy
     :config
     (when (require 'flycheck nil t)
-      (setq elpy-modules (delq 'elpy-module-flake elpy-modules))
+      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
       (add-hook 'elpy-mode-hook 'flycheck-mode))
     )
    (elpy-enable)
