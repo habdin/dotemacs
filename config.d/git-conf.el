@@ -4,7 +4,9 @@
   :ensure t)
 
 (use-package magit-gh-pulls
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 
 (use-package magit-gitflow
   :ensure t)

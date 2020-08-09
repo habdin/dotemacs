@@ -54,6 +54,10 @@
 
 (use-package company-php
   :ensure t)
+
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode))
   
 (use-package company-tern)
 

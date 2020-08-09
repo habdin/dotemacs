@@ -9,5 +9,5 @@
 
 (use-package flyspell
   :ensure t
-  :config
-  (flyspell-mode t))
+  :config)
+

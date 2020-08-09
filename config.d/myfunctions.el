@@ -55,3 +55,19 @@
   (setq prettify-symbols-alist
 	(append my-fira-code-ligatures prettify-symbols-alist))
   (prettify-symbols-mode))
+
+(defun fix-doom-modeline (frame)
+  "Fix doom-modeline not showing file icons when starting Emacs as daemon.
+FRAME is the name of the frame."
+  (with-selected-frame frame
+    (when (display-graphic-p)
+      (setq doom-modeline-icon t))))
+
+(defun lmx-load-theme (theme)
+  "Load downloaded theme."
+  (interactive
+   (list
+    (intern (completing-xread "Load custom theme: "
+                             (mapcar #'symbol-name
+				     (custom-available-themes))))))
+  (load-theme theme t))
